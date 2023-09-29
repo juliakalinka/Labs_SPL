@@ -1,37 +1,29 @@
 import math
 
-
 def summ(x, y):
     return x + y
-
 
 def substraction(x, y):
     return x - y
 
-
 def multiplication(x, y):
     return x * y
-
 
 def division(x, y):
     if y == 0:
         return "Error. Division by 0 unreal"
     return x / y
 
-
 def power(x, y):
     return pow(x, y)
 
-
 def remains(x, y):
     return x % y
-
 
 def square(x):
     if x < 0:
         return "The square root of a negative number is impossible"
     return math.sqrt(x)
-
 
 memory = None
 history = []
@@ -45,7 +37,7 @@ if configure_decimal.lower() == 'y':
         print("Error incorrect input!")
 
 while True:
-    result = ''
+    result = None  # Initialize result as None
     print("Enter numbers:")
     try:
         num1 = float(input("First number: "))
@@ -54,7 +46,6 @@ while True:
         print("Error incorrect input!")
         continue
 
-    # Визначте функції для операцій
     operations = {
         '+': summ,
         '-': substraction,
@@ -65,10 +56,8 @@ while True:
         '%': remains
     }
 
-    # Отримайте оператор від користувача
     operation = input("Enter operation (+, -, *, /, ^, sqrt, %): ")
 
-    # Перевірте, чи оператор існує у словнику функцій
     if operation in operations:
         if operation == 'sqrt':
             result = operations[operation](num1)
@@ -77,8 +66,11 @@ while True:
     else:
         print("Error incorrect operator!")
 
-    rounded_result = round(result, decimal_places)
-    print(f"Result: {rounded_result:.{decimal_places}f}")
+    if isinstance(result, (float, int)):  # Check if result is a number
+        rounded_result = round(result, decimal_places)
+        print(f"Result: {rounded_result:.{decimal_places}f}")
+    else:
+        print(result)  # Print the error message
 
     calculation = f"{num1} {operation} {num2} = {result}"
     history.append(calculation)
@@ -87,7 +79,7 @@ while True:
     if save.lower() == 'y':
         memory = result
 
-    retrieve = input("Delete the result from memory? (Y/N): ")
+    retrieve = input("Retrieve the result from memory? (Y/N): ")
     if retrieve.lower() == 'y' and memory is not None:
         print("Value from memory:", memory)
 
@@ -97,6 +89,6 @@ while True:
         for entry in history:
             print(entry)
 
-        continueCalc = input("Would you like to perform another calculation? (Y/N): ")
-        if continueCalc.lower() != 'y':
-            break
+    continueCalc = input("Would you like to perform another calculation? (Y/N): ")
+    if continueCalc.lower() != 'y':
+        break
